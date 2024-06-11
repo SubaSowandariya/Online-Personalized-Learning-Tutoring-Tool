@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSS Test</title>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        font-family: 'Poppins', sans-serif;
+        box-sizing: border-box;
+    }
+
+    body {
+        background-image: url('dsat.avif');
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
+    .app {
+        background: rgba(255, 255, 255, 0.8);
+        width: 90%;
+        max-width: 600px;
+        margin: 100px auto 0;
+        border-radius: 10px;
+        padding: 30px;
+    }
+
+    .app h1 {
+        font-size: 25px;
+        color: #001e4d;
+        font-weight: 600;
+        border-bottom: 1px solid #333;
+        padding-bottom: 30px;
+    }
+
+    .quiz {
+        padding: 20px 0;
+    }
+
+    .quiz h2 {
+        font-size: 18px;
+        color: #001e4d;
+        font-weight: 600;
+    }
+
+    .btn {
+        background: #fff;
+        color: #222;
+        font-weight: 500;
+        width: 100%;
+        border: 1px solid #222;
+        padding: 10px;
+        margin: 10px 0;
+        text-align: left;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .btn.correct {
+        background: #00ff00;
+    }
+
+    .btn.incorrect {
+        background: #ff0000;
+    }
+
+    .btn:hover {
+        background: #222;
+        color: #fff;
+    }
+
+    #next-btn {
+        background: #001e4d;
+        color: #fff;
+        font-weight: 500;
+        width: 150px;
+        border: 0;
+        padding: 10px;
+        margin: 20px auto 0;
+        border-radius: 4px;
+        cursor: pointer;
+        display: none;
+    }
+
+    #go-back {
+        background: #001e4d;
+        color: #fff;
+        font-weight: 500;
+        width: 100px;
+        border: 0;
+        padding: 10px;
+        margin: 20px auto 0;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+</style>
+</head>
+<body>
+
+<div class="app">
+    <h1>CSS Test</h1>
+    <div id="question" class="quiz"></div>
+    <div id="answer-buttons" class="quiz"></div>
+    <button id="next-btn">Next</button>
+    <button id="go-back">Go Back</button>
+</div>
+
+<script>
+    const questions = [
+        {
+            question: "Which property is used to change the background color of an element?",
+            answers: [
+                { text: "color", correct: false },
+                { text: "background-color", correct: true },
+                { text: "bgcolor", correct: false },
+                { text: "background", correct: false },
+            ]
+        },
+        {
+            question: "Which property is used to change the text color of an element?",
+            answers: [
+                { text: "font-color", correct: false },
+                { text: "text-color", correct: false },
+                { text: "color", correct: true },
+                { text: "text", correct: false },
+            ]
+        },
+        {
+            question: "Which property is used to make text bold in CSS?",
+            answers: [
+                { text: "text-style", correct: false },
+                { text: "font-weight", correct: true },
+                { text: "bold", correct: false },
+                { text: "text-weight", correct: false },
+            ]
+        },
+        {
+            question: "Which property is used to change the font of an element?",
+            answers: [
+                { text: "font-family", correct: true },
+                { text: "font-style", correct: false },
+                { text: "text-family", correct: false },
+                { text: "typeface", correct: false },
+            ]
+        },
+        {
+            question: "Which property is used to set the width of an element?",
+            answers: [
+                { text: "size", correct: false },
+                { text: "width", correct: true },
+                { text: "height", correct: false },
+                { text: "length", correct: false },
+            ]
+        }
+    ];
+
+    const questionElement = document.getElementById("question");
+    const answerButton = document.getElementById("answer-buttons");
+    const nextButton = document.getElementById("next-btn");
+    const goBackButton = document.getElementById("go-back");
+
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let incorrectAnswers = [];
+
+    function startQuiz() {
+        currentQuestionIndex = 0;
+        score = 0;
+        incorrectAnswers = [];
+        nextButton.innerHTML = "Next";
+        showQuestion();
+    }
+
+    function showQuestion() {
+        let currentQuestion = questions[currentQuestionIndex];
+        let questionNo = currentQuestionIndex + 1;
+        questionElement.innerHTML = `<h2>Question ${questionNo}: ${currentQuestion.question}</h2>`;
+
+        answerButton.innerHTML = ""; // Clear previous answer buttons
+
+        currentQuestion.answers.forEach(answer => {
+            const button = document.createElement("button");
+            button.innerHTML = answer.text;
+            button.classList.add("btn");
+            button.addEventListener("click", () => checkAnswer(answer.correct, button));
+            answerButton.appendChild(button);
+        });
+    }
+
+    function checkAnswer(isCorrect, button) {
+        if (isCorrect) {
+            score++;
+        } else {
+            button.classList.add("incorrect");
+            incorrectAnswers.push(questions[currentQuestionIndex]);
+        }
+
+        currentQuestionIndex++;
+
+        if (currentQuestionIndex < questions.length) {
+            showQuestion();
+        } else {
+            endQuiz();
+        }
+    }
+
+    function endQuiz() {
+        questionElement.innerHTML = `You scored ${score} out of ${questions.length} questions.`;
+        answerButton.innerHTML = "";
+        if (score < 5) {
+            displayIncorrectAnswers();
+        } else {
+            nextButton.style.display = "none";
+        }
+        goBackButton.style.display = "block";
+    }
+
+    function displayIncorrectAnswers() {
+        let incorrectAnswersHTML = "<h2>Incorrect Answers:</h2>";
+        incorrectAnswers.forEach((question, index) => {
+            incorrectAnswersHTML += `<p>${index + 1}. ${question.question}</p>`;
+            question.answers.forEach(answer => {
+                if (answer.correct) {
+                    incorrectAnswersHTML += `<button class="btn correct">${answer.text}</button>`;
+                } else {
+                    incorrectAnswersHTML += `<button class="btn incorrect">${answer.text}</button>`;
+                }
+            });
+        });
+        questionElement.innerHTML += incorrectAnswersHTML;
+    }
+
+    startQuiz();
+
+    goBackButton.addEventListener("click", () => {
+        window.location.href = "css.html";
+    });
+</script>
+
+</body>
+</html>
