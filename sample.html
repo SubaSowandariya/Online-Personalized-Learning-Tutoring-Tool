@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DSA - Data Structures and Algorithms</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-image: url('dsab.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+    h1 {
+        text-align: center;
+    }
+    section {
+        margin-bottom: 30px;
+    }
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+    .video-container {
+        text-align: center;
+    }
+    .split-screen {
+        display: flex;
+    }
+    .left-side {
+        flex: 1;
+        padding: 20px;
+        background-color: #f0f0f0;
+        border-right: 2px solid #ccc;
+    }
+    .right-side {
+        flex: 1;
+        padding: 20px;
+        width: 50%;
+    }
+    .resource {
+        display: flex;
+        align-items: center;
+    }
+    .resource a {
+        margin-left: 10px;
+    }
+    .resource-container {
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-around;
+    }
+    .resource-column {
+        flex: 1;
+    }
+    #calendar {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: white; 
+    }
+    #calendar th,
+    #calendar td {
+        padding: 10px;
+        text-align: center;
+        border: 1px solid #ddd;
+        cursor: pointer; 
+    }
+    .event {
+        position: relative;
+    }
+    .event-dot {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 8px;
+        height: 8px;
+        background-color: red; 
+        border-radius: 50%;
+        display: none;
+    }
+    .event-highlight {
+        background-color: yellow; 
+    }
+    .event-details {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        padding: 20px;
+        border: 1px solid #ccc;
+        z-index: 1;
+    }
+</style>
+</head>
+<body>
+
+<!-- Your existing HTML code -->
+
+<div class="event-details" id="eventDetails">
+    <h3>Event Details</h3>
+    <p id="eventContent"></p>
+    <button id="closeDialog">Close</button>
+</div>
+
+<!-- Dialog box structure -->
+<div id="dialog" style="display: none;" title="AJAX Response">
+    <p id="ajaxResponse"></p>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+    $(document).ready(function(){
+        var events = {
+            "2024-02-01": "Introduction",
+            "2024-02-05": "Linked List",
+            "2024-02-10": "Tree"
+        };
+
+        function generateCalendar(year, month) {
+            var daysInMonth = new Date(year, month, 0).getDate();
+            var firstDay = new Date(year, month - 1, 1).getDay(); 
+
+            var calendarHTML = '<table id="calendar"><thead><tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr></thead><tbody>';
+
+            var dayCounter = 1;
+
+            for (var i = 0; i < 6; i++) { 
+                calendarHTML += '<tr>';
+
+                for (var j = 0; j < 7; j++) {
+                    var currentDate = new Date(year, month - 1, dayCounter);
+                    var dateStr = currentDate.toISOString().slice(0, 10);
+
+                    if (i === 0 && j < firstDay) {
+                        calendarHTML += '<td></td>';
+                    } else if (dayCounter > daysInMonth) {
+                        calendarHTML += '<td></td>';
+                    } else {
+                        var event = events[dateStr];
+                        if (event) {
+                            calendarHTML += '<td class="event event-highlight" data-date="' + dateStr + '">' + dayCounter + '<span class="event-dot"></span></td>';
+                        } else {
+                            calendarHTML += '<td>' + dayCounter + '</td>';
+                        }
+                        dayCounter++;
+                    }
+                }
+
+                calendarHTML += '</tr>';
+            }
+
+            calendarHTML += '</tbody></table>';
+
+            return calendarHTML;
+        }
+        var currentDate = new Date();
+        var currentYear = currentDate.getFullYear();
+        var currentMonth = currentDate.getMonth() + 1; 
+        $('#calendar').html(generateCalendar(currentYear, currentMonth));
+        $('#calendar').on('click', '.event', function() {
+            var date = $(this).data('date');
+            var eventContent = events[date];
+            $('#eventContent').text(eventContent);
+            $('#eventDetails').css({
+                top: $(this).offset().top + $(this).height() + 10,
+                left: $(this).offset().left
+            }).show();
+        });
+        $(document).click(function(event) {
+            if (!$(event.target).closest('.event').length && !$(event.target).closest('.event-details').length) {
+                $('.event-details').hide();
+            }
+        });
+    });
+
+        $('#calendar').on('click', '.event', function() {
+            var date = $(this).data('date');
+            var eventContent = events[date];
+            $('#eventContent').text(eventContent);
+            $('#eventDetails').css({
+                top: $(this).offset().top + $(this).height() + 10,
+                left: $(this).offset().left
+            }).show();
+
+            // AJAX request to fetch additional information
+            $.ajax({
+                url: 'your-ajax-endpoint', // Replace with your actual AJAX endpoint
+                type: 'GET',
+                data: { date: date },
+                success: function(response) {
+                    $('#ajaxResponse').text(response);
+                    $('#dialog').dialog('open');
+                },
+                error: function(xhr, status, error) {
+                    console.error('AJAX request failed:', status, error);
+                }
+            });
+        });
+
+        $('#closeDialog').click(function() {
+            $('#eventDetails').hide();
+        });
+
+        // Initialize jQuery UI dialog
+        $('#dialog').dialog({
+            autoOpen: false,
+            modal: true,
+            buttons: {
+                Ok: function() {
+                    $(this).dialog('close');
+                }
+            }
+        });
+
+        $(document).click(function(event) {
+            if (!$(event.target).closest('.event').length && !$(event.target).closest('.event-details').length) {
+                $('.event-details').hide();
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AGS Academy</title>
+  <style>
+    body {
+      font-family: 'Lucida Bright', 'Lucida Bright Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: url("Picture2.jpg") center/cover no-repeat;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      background-color: rgba(255, 255, 255, 0.7);
+    }
+
+    header h1 {
+      margin: 0;
+      color: brown; /* Change color to brown */
+    }
+
+    header a {
+      color: #333;
+      text-decoration: none;
+      padding: 5px 10px;
+      margin: 0 5px;
+      border-radius: 5px;
+      border: 1px solid #333;
+      display: inline-block;
+    }
+
+    header a#about-us:visited {
+      color: blue;
+    }
+
+    header a#about-us:hover {
+      color: green;
+    }
+
+    main {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      color: #333;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 36px;
+      margin-bottom: 20px;
+    }
+
+    .left-section {
+      width: 60%;
+      max-width: 600px;
+      font-family: 'Roboto', sans-serif;
+      font-size: 18px;
+      line-height: 3;
+    }
+
+    .features {
+      margin-top: 40px;
+    }
+
+    footer {
+      margin-top: 20px;
+      text-align: center;
+      background-color: rgba(255, 255, 255, 0.7);
+      padding: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>AGS Academy</h1>
+    <div>
+      <a href="Aboutus.html" id="about-us">About us</a>
+      <a href="Sign1.html">Sign Up</a>
+      <a href="Login.html">Login</a>
+    </div>
+  </header>
+
+  <main>
+    <div class="left-section">
+      <p>"Elevate your knowledge journey with our bespoke online tutoring tool, a personalized compass through the sea of learning possibilities. Your academic adventure, uniquely crafted for brilliance!"</p>
+
+      <h2 class="features">Features</h2>
+      <ul>
+        <li>Tailored Learning Plans</li>
+        <li>Resourceful Materials</li>
+        <li>24/7 Accessibility</li>
+      </ul>
+    </div>
+  </main>
+
+  <footer>
+    <p>If you have any questions, feel free to ask</p>
+    <p>Gmail ID: agsacademy@gmail.com</p>
+    <p>Contact No: 9363319545</p>
+  </footer>
+  <script>
+    document.getElementById('about-us').addEventListener('click', function ()
+    {
+      this.classList.add('visited');
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DSA - Data Structures and Algorithms</title>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-image: url('dsab.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+    h1 {
+        text-align: center;
+        color: white; /* Set title color to white */
+    }
+    section {
+        margin-bottom: 30px;
+    }
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+    .video-container {
+        text-align: center;
+    }
+    .split-screen {
+        display: flex;
+    }
+    .left-side {
+        flex: 1;
+        padding: 10px; /* Adjust padding */
+        background-color: #f0f0f0;
+        border-right: 2px solid #ccc;
+        max-width: 50%; /* Reduce div size of left side */
+        max-height: 400px; /* Set your desired maximum height */
+        overflow-y: auto; /* Add scroll if content exceeds the maximum height */
+    }
+    .right-side {
+        flex: 1;
+        padding: 20px;
+        width: 50%;
+    }
+    .resource {
+        display: flex;
+        align-items: center;
+        color: blue; /* Set resource link color to white */
+    }
+    .resource a {
+        margin-left: 10px;
+        color: blue; /* Set resource link color to white */
+    }
+    #calendar {
+        width: 80%; /* Adjust width as needed */
+        max-width: 300px; /* Set maximum width */
+        height: 200px; /* Adjust height as needed */
+        max-height: 200px; /* Set maximum height */
+        border-collapse: collapse;
+        background-color: white;
+        font-size: 12px; /* Adjust font size */
+        /* Add any other styles you want to adjust */
+    }
+    #calendar th,
+    #calendar td {
+        padding: 10px;
+        text-align: center;
+        border: 1px solid #ddd;
+        cursor: pointer;
+    }
+    .event {
+        position: relative;
+    }
+    .event-dot {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 8px;
+        height: 8px;
+        background-color: red;
+        border-radius: 50%;
+        display: none;
+    }
+    .event-highlight {
+        background-color: yellow;
+    }
+    .event-details {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        padding: 20px;
+        border: 1px solid #ccc;
+        z-index: 1;
+    }
+    .button-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+    #takeTestButton {
+        margin-left: 10px;
+    }
+</style>
+</head>
+<body>
+
+<h1>DSA - Data Structures and Algorithms</h1>
+
+<div class="split-screen">
+    <div class="left-side">
+        <section>
+            <div class="container">
+                <h2>About DSA</h2>
+                <p>DSA, which stands for Data Structures and Algorithms, is a fundamental topic in computer science. It involves the study of organizing and managing data effectively to solve complex problems efficiently. DSA plays a crucial role in various areas such as software development, system design, and algorithm optimization.</p>
+            </div>
+        </section>
+
+        <section>
+            <div class="container">
+                <h2>Learning Resources</h2>
+                <div class="resource">
+                    <div>GeeksforGeeks - Data Structures</div>
+                    <a href="https://www.geeksforgeeks.org/data-structures/">Learn more</a>
+                </div>
+                <div class="resource">
+                    <div>Coursera - Data Structures and Algorithms Specialization</div>
+                    <a href="https://www.coursera.org/specializations/data-structures-algorithms">Learn more</a>
+                </div>
+                <div class="resource">
+                    <div>LeetCode</div>
+                    <a href="https://leetcode.com/">Learn more</a>
+                </div>
+                <button id="moreButton">More</button>
+            </div>
+        </section>
+        <div class="button-container">
+            <button id="takeTestButton">Take Test</button>
+        </div>
+    </div>
+
+    <div class="right-side">
+        <div class="video-container">
+            <h2>Video: Introduction to DSA</h2>
+            <img src="youtube.jpg" alt="Logo" width="100">
+            <p><a href="https://www.youtube.com/">Watch on YouTube</a></p>
+        </div>
+
+        <section>
+            <div class="container">
+                <h2>Lecture Notes</h2>
+                <ul>
+                    <li><a href="https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-006-introduction-to-algorithms-fall-2011/lecture-notes/" style="color: white;">MIT OpenCourseWare - Introduction to Algorithms</a></li>
+                    <li><a href="https://www.cs.cmu.edu/~adamchik/15-121/lectures/" style="color: white;">Carnegie Mellon University - Data Structures and Algorithms Lecture Notes</a></li>
+                    <li><a href="https://cs61b.org/" style="color: white;">UC Berkeley CS 61B - Data Structures</a></li>
+                </ul>
+            </div>
+        </section>
+        <section>
+            <div class="container">
+                <h2>Real-time Calendar</h2>
+                <div id="calendar"></div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<div class="event-details" id="eventDetails">
+    <h3>Event Details</h3>
+    <p id="eventContent"></p>
+</div>
+<div id="moreDetailsDialog" title="More Details">
+    <p id="moreDetailsContent">Loading...</p>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+    $(document).ready(function(){
+        var events = {
+            "2024-02-01": "Introduction",
+            "2024-02-05": "Linked List",
+            "2024-02-10": "Tree"
+        };
+
+        function generateCalendar(year, month) {
+            var daysInMonth = new Date(year, month, 0).getDate();
+            var firstDay = new Date(year, month - 1, 1).getDay(); 
+
+            var calendarHTML = '<table id="calendar"><thead><tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr></thead><tbody>';
+
+            var dayCounter = 1;
+
+            for (var i = 0; i < 6; i++) { 
+                calendarHTML += '<tr>';
+
+                for (var j = 0; j < 7; j++) {
+                    var currentDate = new Date(year, month - 1, dayCounter);
+                    var dateStr = currentDate.toISOString().slice(0, 10);
+
+                    if (i === 0 && j < firstDay) {
+                        calendarHTML += '<td></td>';
+                    } else if (dayCounter > daysInMonth) {
+                        calendarHTML += '<td></td>';
+                    } else {
+                        var event = events[dateStr];
+                        if (event) {
+                            calendarHTML += '<td class="event event-highlight" data-date="' + dateStr + '">' + dayCounter + '<span class="event-dot"></span></td>';
+                        } else {
+                            calendarHTML += '<td>' + dayCounter + '</td>';
+                        }
+                        dayCounter++;
+                    }
+                }
+
+                calendarHTML += '</tr>';
+            }
+
+            calendarHTML += '</tbody></table>';
+
+            return calendarHTML;
+        }
+        var currentDate = new Date();
+        var currentYear = currentDate.getFullYear();
+        var currentMonth = currentDate.getMonth() + 1; 
+        $('#calendar').html(generateCalendar(currentYear, currentMonth));
+
+        $('#calendar').on('click', '.event', function() {
+            var date = $(this).data('date');
+            var eventContent = events[date];
+            $('#eventContent').text(eventContent);
+            $('#eventDetails').css({
+                top: $(this).offset().top + $(this).height() + 10,
+                left: $(this).offset().left
+            }).show();
+        });
+
+        $(document).on('click', '#moreButton', function() {
+            // Fetch additional details using AJAX
+            $.ajax({
+                url: 'moreDetails.json', // Change the URL to your JSON file
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    // Display details in the dialog box
+                    $('#moreDetailsContent').text(data.details);
+                    $('#moreDetailsDialog').dialog({
+                        modal: true,
+                        width: 400, // Adjust the width as needed
+                        buttons: {
+                            Ok: function() {
+                                $(this).dialog('close');
+                            }
+                        }
+                    });
+                },
+                error: function() {
+                    alert('Error fetching more details.');
+                }
+            });
+        });
+
+        $('#takeTestButton').on('click', function() {
+            window.location.href = 'dsatest.html';
+        });
+
+        $(document).click(function(event) {
+            if (!$(event.target).closest('.event').length && !$(event.target).closest('.event-details').length) {
+                $('.event-details').hide();
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

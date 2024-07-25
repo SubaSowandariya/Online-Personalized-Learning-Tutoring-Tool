@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>XML DOM Manipulation</title>
+</head>
+<body>
+
+<h1>XML DOM Manipulation</h1>
+<div id="xmlContent"></div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                var parser = new DOMParser();
+                var xmlDoc = parser.parseFromString(xhr.responseText, "text/xml");
+                var employees = xmlDoc.getElementsByTagName("employee");
+                for (var i = 0; i < employees.length; i++) {
+                    var employee = employees[i];
+                    var name = employee.querySelector("name").textContent;
+                    if (name === "Joe") {
+                        employee.querySelector("job").textContent = "Developer";
+                        break;
+                    }
+                }
+                document.getElementById("xmlContent").textContent = new XMLSerializer().serializeToString(xmlDoc);
+            } else {
+                console.error("Error: Failed to load XML file. Status code:", xhr.status);
+            }
+        }
+    };
+    xhr.open("GET", "job.xml", true);
+    xhr.send();
+});
+</script>
+
+</body>
+</html>

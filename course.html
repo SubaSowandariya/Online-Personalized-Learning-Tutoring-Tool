@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Example</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<style>
+   
+    #top-nav {
+        background-color: #333;
+        color: white;
+        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .nav-item {
+        cursor: pointer;
+        margin: 0 5px; 
+    }
+    .dropdown {
+        position: relative;
+    }
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        z-index: 1;
+        width: 120px;
+        padding: 0;
+        margin: 0;
+        list-style-type: none; 
+    }
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+    .dropdown-content a:hover {
+        background-color: #ddd;
+    }
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+    .content {
+        padding: 20px;
+    }
+    .hidden {
+        display: none;
+    }
+   
+    .section-container {
+        display: flex;
+        justify-content: space-between;
+    }
+    .section {
+        padding: 200px;
+        flex-grow: 1;
+        position: relative; 
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat; 
+        position: relative; 
+        opacity: 0; 
+        transition: opacity 0.5s ease-in-out;
+    }
+    .section h2 {
+        margin-bottom: 10px;
+    }
+    .join-button {
+        background-color: #333;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+        position: absolute;
+        bottom: 20px; 
+        left: 50%;
+        transform: translateX(-50%); 
+    }
+    
+    .section.html-section {
+        background-image: url('icons8-html-96.png');
+        background-size: 96px;
+    }
+
+    .section.css-section {
+        background-image: url('icons8-css-55.png');
+        background-size: 100px;
+    }
+
+    .section.dsa-section {
+        background-image: url('dsa.jpg');
+        background-size: 200px;
+    }
+    .section:hover {
+        transform: scale(1.1);
+    }
+
+</style>
+</head>
+<body>
+
+<div id="top-nav">
+    <div class="dropdown">
+        <div class="nav-item">Courses &#9660;</div>
+        <div class="dropdown-content">
+            <a class="course" data-course="HTML">HTML</a>
+            <a class="course" data-course="CSS">CSS</a>
+            <a class="course" data-course="DSA">DSA</a>
+        </div>
+    </div>
+    <a href="live.html" class="nav-item">Live Assisted Session</a>
+    <a href="certification.html" class="nav-item">Certification</a>
+    <div class="dropdown" style="position: relative;">
+        <div class="nav-item">Profile &#9660;</div>
+        <div class="dropdown-content" style="right: 0;">
+            <a class="profile" data-profile="Settings">Settings</a>
+            <a class="profile" data-profile="Personalization">Personalization</a>
+            <a class="profile" data-profile="SignOut">Sign Out</a>
+        </div>
+    </div>
+</div>
+<div class="section-container">
+    <div class="section dsa-section">
+
+        <button class="join-button" onclick="window.location.href='dsa.html'">Join</button>
+    </div>
+    <div class="section html-section">
+
+        <button class="join-button" onclick="window.location.href='ht.html'">Join</button>
+    </div>
+    <div class="section css-section">
+
+        <button class="join-button" onclick="window.location.href='css.html'">Join</button>
+    </div>
+</div>
+
+<div class="content" id="content">
+   
+</div>
+
+<script>
+    $(document).ready(function(){
+       
+        $(".dropdown-content a").click(function(event) {
+            event.preventDefault();
+        });
+
+        $(".course").click(function(){
+            var course = $(this).data("course");
+            $(".content").html("<h2>"+course.toUpperCase()+"</h2>");
+        });
+
+        $(".profile").click(function(){
+            var profile = $(this).data("profile");
+            $(".content").html("<h2>"+profile.toUpperCase()+"</h2>");
+        });
+
+       
+        $(".section").each(function(index) {
+            $(this).delay(500 * index).animate({
+                opacity: 1
+            }, 1000); 
+        });
+    });
+</script>
+
+</body>
+</html>

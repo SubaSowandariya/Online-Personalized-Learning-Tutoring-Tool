@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background: url('Picture5.jpg') center/cover no-repeat fixed; 
+            font-family: "Monotype Corsiva", cursive;
+        }
+
+        .login-container {
+            text-align: center;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(157, 154, 154, 0.1);
+            width: 35%;
+            margin-left: 10%; 
+            color: black;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 70%; /* Adjusted the input width for better visibility */
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .error-message {
+            display: none;
+            color: red;
+            margin-top: 5px;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-container">
+    <h2>Welcome Back!!</h2>
+    <form action="/LoginServlet" method="post">
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required>
+            <div id="name-error" class="error-message">Name should contain only alphabets and whitespace.</div>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+            <div id="password-error" class="error-message">Password is required.</div>
+        </div>
+
+        <button type="submit">Login</button>
+    </form>
+</div>
+<script>
+    document.getElementById('name').addEventListener('input', function() {
+        var name = this.value.trim();
+        var nameError = document.getElementById('name-error');
+
+        if (!/^[A-Za-z\s]{1,20}$/.test(name)) { 
+            nameError.style.display = "block";
+        } else {
+            nameError.style.display = "none";
+        }
+    });
+
+    document.getElementById('password').addEventListener('input', function() {
+        var password = this.value.trim();
+        var passwordError = document.getElementById('password-error');
+
+        if (password.length < 8 || password.length > 12) {
+            passwordError.textContent = "Password must be between 8 and 12 characters long.";
+            passwordError.style.display = "block";
+        } else if (!/(?=(?:.*[!@#$%^&()_+={}|;:'",.<>?`~-])){2,}(?=(?:.*\d)){3,}/.test(password)) {
+            passwordError.textContent = "Password must contain at least 2 special characters and 3 numbers.";
+            passwordError.style.display = "block";
+        } else {
+            passwordError.style.display = "none";
+        }
+    });
+</script>
+</body>
+</html>

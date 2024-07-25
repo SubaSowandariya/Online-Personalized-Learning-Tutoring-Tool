@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schedule Query</title>
+</head>
+<body>
+    <h1>Schedule Query</h1>
+    <form id="topicForm">
+        <label for="topic">Enter Topic:</label>
+        <input type="text" id="topic" name="topic">
+        <button type="submit">Search</button>
+    </form>
+    <div id="scheduleTable"></div>
+
+    <script>
+        document.getElementById("topicForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            var topic = document.getElementById("topic").value;
+            fetch("schedule.xq?topic=" + encodeURIComponent(topic))
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById("scheduleTable").innerHTML = data;
+                })
+                .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>

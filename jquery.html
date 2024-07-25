@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Example</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<style>
+    /* CSS for styling */
+    #top-nav {
+        background-color: #333;
+        color: white;
+        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .nav-item {
+        cursor: pointer;
+        margin: 0 5px; /* Adjusted spacing */
+    }
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        z-index: 1;
+        padding: 5px 0;
+        width: 120px;
+    }
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+    .dropdown-content a:hover {
+        background-color: #ddd;
+    }
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+    .content {
+        padding: 20px;
+    }
+    .hidden {
+        display: none;
+    }
+</style>
+</head>
+<body>
+
+<div id="top-nav">
+    <div class="dropdown">
+        <div class="nav-item">Courses &#9660;</div>
+        <div class="dropdown-content">
+            <a href="#" class="course" data-course="html">HTML</a>
+            <a href="#" class="course" data-course="css">CSS</a>
+            <a href="#" class="course" data-course="dsa">DSA</a>
+        </div>
+    </div>
+    <div class="nav-item">Live Assisted Session</div>
+    <div class="nav-item">Certification</div>
+    <div class="dropdown" style="position: relative;">
+        <div class="nav-item">Profile &#9660;</div>
+        <div class="dropdown-content" style="right: 0;">
+            <a href="#" class="profile" data-profile="settings">Settings</a>
+            <a href="#" class="profile" data-profile="personalization">Personalization</a>
+            <a href="#" class="profile" data-profile="sign-out">Sign Out</a>
+        </div>
+    </div>
+</div>
+
+<div class="content" id="content">
+    <!-- Content will be loaded here based on selection -->
+</div>
+
+<script>
+    $(document).ready(function(){
+        $(".course").click(function(){
+            var course = $(this).data("course");
+            $(".content").html("<h2>"+course.toUpperCase()+"</h2>");
+        });
+
+        $(".profile").click(function(){
+            var profile = $(this).data("profile");
+            $(".content").html("<h2>"+profile.toUpperCase()+"</h2>");
+        });
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Certification Test</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+
+  .header {
+    text-align: center;
+    padding: 50px 0;
+  }
+
+  .certification-title {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+
+  .certification-description {
+    font-size: 16px;
+    color: #666;
+  }
+
+  .test-bar {
+    background-color: #f0f0f0;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .test-bar h2 {
+    margin-top: 0;
+  }
+
+  .test-bar button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .test-bar button:hover {
+    background-color: #0056b3;
+  }
+
+  .test-bar img {
+    width: 20px;
+    vertical-align: middle;
+  }
+
+  #certificate-button {
+    display: none;
+    margin: 20px auto;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1 class="certification-title">Certification Test</h1>
+  <p class="certification-description">This certification test contains 3 tests including topics of HTML, CSS, DSA. After completing the tests, you could obtain the Certificate.</p>
+</div>
+
+<div class="test-bar">
+  <h2>Test 1</h2>
+  <button id="take-test-1" onclick="startTest('test1.jsp')">Take Test</button>
+  <span id="test-1-status"></span>
+</div>
+
+<div class="test-bar">
+  <h2>Test 2</h2>
+  <button id="take-test-2" onclick="startTest('test2.jsp')">Take Test</button>
+  <span id="test-2-status"></span>
+</div>
+
+<div class="test-bar">
+  <h2>Test 3</h2>
+  <button id="take-test-3" onclick="startTest('test3.jsp')">Take Test</button>
+  <span id="test-3-status"></span>
+</div>
+
+<script>
+  function startTest(testPage) {
+    window.location.href = testPage;
+  }
+</script>
+
+</body>
+</html>

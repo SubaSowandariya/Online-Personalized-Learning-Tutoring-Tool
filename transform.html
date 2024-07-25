@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XSLT Transformation</title>
+</head>
+<body>
+    <h1>Session Schedule</h1>
+    <div id="schedule"></div>
+
+    <script>
+        // Load XML document
+        var xml = new XMLHttpRequest();
+        xml.open("GET", "schedule.xml", false);
+        xml.send(null);
+        var xmlDoc = xml.responseXML;
+
+        // Load XSL document
+        var xsl = new XMLHttpRequest();
+        xsl.open("GET", "schedule.xsl", false);
+        xsl.send(null);
+        var xslDoc = xsl.responseXML;
+
+        // Transform XML with XSLT
+        var xsltProcessor = new XSLTProcessor();
+        xsltProcessor.importStylesheet(xslDoc);
+        var resultDocument = xsltProcessor.transformToFragment(xmlDoc, document);
+
+        // Display result
+        document.getElementById("schedule").appendChild(resultDocument);
+    </script>
+</body>
+</html>
